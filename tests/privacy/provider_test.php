@@ -24,7 +24,7 @@ use core_privacy\local\request\writer;
 use local_secondaryemail\verification;
 
 /**
- * Privacy tests for local_secondaryemail.
+ * Privacy provider tests for local_secondaryemail.
  *
  * @package    local_secondaryemail
  * @category   test
@@ -32,7 +32,7 @@ use local_secondaryemail\verification;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers     \local_secondaryemail\privacy\provider
  */
-final class privacy_test extends \core_privacy\tests\provider_testcase {
+final class provider_test extends \core_privacy\tests\provider_testcase {
     public function setUp(): void {
         parent::setUp();
         $this->resetAfterTest(true);

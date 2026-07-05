@@ -20,14 +20,14 @@ Feature: Secondary email management report
     And I log in as "admin"
 
   Scenario: Show secondary email status tags and add action
-    When I navigate to "Users > Accounts > Secondary email report" in site administration
+    When I navigate to "Users > Accounts > Users with secondary email" in site administration
     Then I should see "Verified" in the "User One" "table_row"
     And I should see "Pending" in the "User Two" "table_row"
     And I should see "blocked" in the "User Three" "table_row"
     And I should see "Add secondary email" in the "User Four" "table_row"
 
   Scenario: Block a user's secondary email
-    When I navigate to "Users > Accounts > Secondary email report" in site administration
+    When I navigate to "Users > Accounts > Users with secondary email" in site administration
     And I click on "Actions" "button" in the "User One" "table_row"
     And I click on "Disable secondary email" "link"
     Then I should see "Secondary email sending has been disabled"
@@ -35,19 +35,19 @@ Feature: Secondary email management report
 
   Scenario: Unblock a user's secondary email
     Given the secondary email for user "user1" is blocked
-    When I navigate to "Users > Accounts > Secondary email report" in site administration
+    When I navigate to "Users > Accounts > Users with secondary email" in site administration
     And I click on "Actions" "button" in the "User One" "table_row"
     And I click on "Enable secondary email" "link"
     Then I should see "Secondary email sending has been enabled"
 
   Scenario: Resend confirmation email for pending secondary email
-    When I navigate to "Users > Accounts > Secondary email report" in site administration
+    When I navigate to "Users > Accounts > Users with secondary email" in site administration
     And I click on "Actions" "button" in the "User Two" "table_row"
     And I click on "Resend secondary email confirmation" "link"
     Then I should see "Secondary email confirmation has been sent again"
 
   Scenario: Delete a user's secondary email
-    When I navigate to "Users > Accounts > Secondary email report" in site administration
+    When I navigate to "Users > Accounts > Users with secondary email" in site administration
     And I click on "Actions" "button" in the "User One" "table_row"
     And I click on "Delete secondary email" "link"
     And I click on "Delete" "button" in the "Confirm" "dialogue"
@@ -55,12 +55,12 @@ Feature: Secondary email management report
     And I should see "Add secondary email" in the "User One" "table_row"
 
   Scenario: Resend not available for already verified email
-    When I navigate to "Users > Accounts > Secondary email report" in site administration
+    When I navigate to "Users > Accounts > Users with secondary email" in site administration
     And I click on "Actions" "button" in the "User One" "table_row"
     Then I should not see "Resend secondary email confirmation"
 
   Scenario: Filter report by verification status
-    When I navigate to "Users > Accounts > Secondary email report" in site administration
+    When I navigate to "Users > Accounts > Users with secondary email" in site administration
     And I click on "Filters" "button"
     And I set the field "Secondary email status" to "Verified"
     And I click on "Apply" "button" in the "[data-region='report-filters']" "css_element"
@@ -73,7 +73,7 @@ Feature: Secondary email management report
     Given the following config values are set as admin:
       | enablerelationshiptag | 1 | local_secondaryemail |
       | relationshiptags      | mother | local_secondaryemail |
-    When I navigate to "Users > Accounts > Secondary email report" in site administration
+    When I navigate to "Users > Accounts > Users with secondary email" in site administration
     And I click on "Actions" "button" in the "User One" "table_row"
     And I click on "Set tag: Mother" "link"
     Then I should see "Mother" in the "User One" "table_row"

@@ -56,6 +56,7 @@ class observer {
      * Handle profile changes for both created and updated users.
      *
      * @param int $userid
+     * @param int|null $actorid The user who made the change, if known.
      */
     protected static function handle_user_profile_change(int $userid, ?int $actorid = null): void {
         global $USER;

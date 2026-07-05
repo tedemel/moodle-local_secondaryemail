@@ -81,44 +81,56 @@ export const init = (params) => {
         });
     };
 
+    const hrefHasId = (href, id) => href.indexOf('id=' + id + '&') !== -1 ||
+        href.indexOf('id=' + id + '"') !== -1 ||
+        href.endsWith('id=' + id) ||
+        href.indexOf('&id=' + id) !== -1;
+
+    const hideLink = (link) => {
+        link.style.display = 'none';
+        link.setAttribute('data-locked', 'true');
+    };
+
+    const addLockedBadge = (link) => {
+        const row = link.closest('tr') || link.closest('li') || link.parentElement;
+        if (row && !row.querySelector('.secondaryemail-locked-badge')) {
+            const badge = document.createElement('span');
+            badge.className = 'badge badge-warning text-bg-warning ms-2 secondaryemail-locked-badge';
+            badge.textContent = lockedLabel;
+            badge.title = fieldLockedMsg;
+            const nameCell = row.querySelector('td:first-child, span.text-break') || row;
+            if (nameCell) {
+                nameCell.appendChild(badge);
+            }
+        }
+    };
+
+    const processLink = (link) => {
+        if (link.getAttribute('data-locked')) {
+            return;
+        }
+        const href = link.getAttribute('href') || '';
+        const isFieldLink = hrefHasId(href, fieldId);
+
+        if (href.indexOf('action=editfield') !== -1 && isFieldLink) {
+            disableLink(link, fieldLockedMsg);
+            addLockedBadge(link);
+        }
+
+        if (href.indexOf('action=deletefield') !== -1 && isFieldLink) {
+            hideLink(link);
+        }
+
+        const isCategoryAction = href.indexOf('action=editcategory') !== -1 ||
+            href.indexOf('action=deletecategory') !== -1 ||
+            href.indexOf('action=movecategory') !== -1;
+        if (isCategoryAction && hrefHasId(href, categoryId)) {
+            hideLink(link);
+        }
+    };
+
     const lockField = () => {
-        document.querySelectorAll('a[href]').forEach((link) => {
-            if (link.getAttribute('data-locked')) {
-                return;
-            }
-            const href = link.getAttribute('href') || '';
-
-            const isFieldLink = (href.indexOf('id=' + fieldId + '&') !== -1 || href.indexOf('id=' + fieldId + '"') !== -1 ||
-                href.endsWith('id=' + fieldId) || href.indexOf('&id=' + fieldId) !== -1);
-
-            if (href.indexOf('action=editfield') !== -1 && isFieldLink) {
-                disableLink(link, fieldLockedMsg);
-                const row = link.closest('tr') || link.closest('li') || link.parentElement;
-                if (row && !row.querySelector('.secondaryemail-locked-badge')) {
-                    const badge = document.createElement('span');
-                    badge.className = 'badge badge-warning text-bg-warning ms-2 secondaryemail-locked-badge';
-                    badge.textContent = lockedLabel;
-                    badge.title = fieldLockedMsg;
-                    const nameCell = row.querySelector('td:first-child, span.text-break') || row;
-                    if (nameCell) {
-                        nameCell.appendChild(badge);
-                    }
-                }
-            }
-
-            if (href.indexOf('action=deletefield') !== -1 && isFieldLink) {
-                link.style.display = 'none';
-                link.setAttribute('data-locked', 'true');
-            }
-
-            if ((href.indexOf('action=editcategory') !== -1 || href.indexOf('action=deletecategory') !== -1 ||
-                href.indexOf('action=movecategory') !== -1) &&
-                (href.indexOf('id=' + categoryId + '&') !== -1 || href.indexOf('id=' + categoryId + '"') !== -1 ||
-                href.endsWith('id=' + categoryId) || href.indexOf('&id=' + categoryId) !== -1)) {
-                link.style.display = 'none';
-                link.setAttribute('data-locked', 'true');
-            }
-        });
+        document.querySelectorAll('a[href]').forEach(processLink);
 
         document.querySelectorAll('[data-inplaceeditable]').forEach((editableEl) => {
             const text = editableEl.textContent || '';

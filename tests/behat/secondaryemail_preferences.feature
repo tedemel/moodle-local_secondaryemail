@@ -14,13 +14,13 @@ Feature: Secondary email notification preferences
     And I log in as "user1"
 
   Scenario: Preferences page shows enabled providers
-    When I am on "/local/secondaryemail/preferences.php"
+    When I visit "/local/secondaryemail/preferences.php"
     Then I should see "Secondary email notifications"
     And I should see "System"
     And I should see "Save changes"
 
   Scenario: User can save notification preferences
-    When I am on "/local/secondaryemail/preferences.php"
+    When I visit "/local/secondaryemail/preferences.php"
     And I click on "Personal messages between users" "checkbox"
     And I press "Save changes"
     Then I should see "Your notification preferences have been saved."

@@ -32,7 +32,7 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
  * @category   external
  * @copyright  2026 Tessa Demel
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @coversDefaultClass \local_secondaryemail\external\get_status
+ * @covers \local_secondaryemail\external\get_status
  */
 final class get_status_test extends externallib_advanced_testcase {
     public function test_get_status_current_user(): void {

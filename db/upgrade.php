@@ -21,6 +21,13 @@
  * @copyright  2026 Tessa Demel
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/**
+ * Upgrade steps for local_secondaryemail.
+ *
+ * @param int $oldversion The version we are upgrading from.
+ * @return bool
+ */
 function xmldb_local_secondaryemail_upgrade(int $oldversion): bool {
     global $DB;
 
