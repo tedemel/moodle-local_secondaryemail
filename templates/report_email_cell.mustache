@@ -1,0 +1,59 @@
+{{!
+    @template local_secondaryemail/report_email_cell
+
+    Secondary email cell for the report table, showing the address with status badges and an action menu.
+
+    @package   local_secondaryemail
+    @copyright 2026 Tessa Demel
+    @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+
+    Context variables required for this template:
+    * email string The secondary email address.
+    * isempty bool Whether no secondary email is set.
+    * isdisabled bool Whether sending to the secondary email is disabled.
+    * hasstatus bool Whether a verification status badge should be shown.
+    * statuslabel string Label of the verification status badge.
+    * statusclass string CSS classes of the verification status badge.
+    * relationshiptag string Relationship tag label, empty when none.
+    * disabledlabel string Label of the disabled badge.
+    * addurl string URL to add a secondary email, empty when not available.
+    * actionmenuhtml string Pre-rendered action menu HTML.
+
+    Example context (json):
+    {
+        "email": "second@example.com",
+        "isempty": false,
+        "isdisabled": false,
+        "hasstatus": true,
+        "statuslabel": "Verified",
+        "statusclass": "badge-success text-bg-success",
+        "relationshiptag": "Mother",
+        "disabledlabel": "",
+        "addurl": "",
+        "actionmenuhtml": ""
+    }
+}}
+<div class="d-inline-flex align-items-center flex-wrap gap-1">
+    {{#isempty}}
+        {{#addurl}}
+            <a class="btn btn-link p-0" href="{{addurl}}">{{#str}}secondaryemailaddaction, local_secondaryemail{{/str}}</a>
+        {{/addurl}}
+    {{/isempty}}
+    {{^isempty}}
+        <span class="text-break">{{email}}</span>
+        {{#relationshiptag}}
+            <span class="badge badge-info text-bg-info ms-1" role="status" aria-label="{{relationshiptag}}">{{relationshiptag}}</span>
+        {{/relationshiptag}}
+        {{#isdisabled}}
+            <span class="badge badge-secondary text-bg-secondary ms-1" role="status" aria-label="{{disabledlabel}}">
+                {{disabledlabel}}
+            </span>
+        {{/isdisabled}}
+        {{#hasstatus}}
+            <span class="badge {{statusclass}} ms-1" role="status" aria-label="{{statuslabel}}">
+                {{statuslabel}}
+            </span>
+        {{/hasstatus}}
+    {{/isempty}}
+    {{{actionmenuhtml}}}
+</div>

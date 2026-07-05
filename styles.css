@@ -1,0 +1,27 @@
+.secondaryemail-locked-link {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.secondaryemail-locked-input {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.secondaryemail-category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    padding: 2px 8px;
+    margin-left: 8px;
+    background: var(--bs-warning-bg-subtle, #f8d7a0);
+    color: var(--bs-warning-text-emphasis, #856404);
+    border: 1px solid var(--bs-warning-border-subtle, #f1c97b);
+    border-radius: 12px;
+    font-weight: 500;
+    vertical-align: middle;
+    pointer-events: auto;
+}
