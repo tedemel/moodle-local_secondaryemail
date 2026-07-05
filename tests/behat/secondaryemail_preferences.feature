@@ -17,7 +17,7 @@ Feature: Secondary email notification preferences
     When I visit "/local/secondaryemail/preferences.php"
     Then I should see "Secondary email notifications"
     And I should see "System"
-    And I should see "Save changes"
+    And "Save changes" "button" should exist
 
   Scenario: User can save notification preferences
     When I visit "/local/secondaryemail/preferences.php"

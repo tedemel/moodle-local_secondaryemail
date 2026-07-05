@@ -142,10 +142,11 @@ class observer {
             $userfrom = \core_user::get_noreply_user();
         }
 
-        // Prepare the message content.
-        $subject = $data->subject;
-        $fullmessage = $data->fullmessage;
-        $fullmessagehtml = $data->fullmessagehtml;
+        // Prepare the message content. The notification columns are nullable but email_to_user()
+        // requires strings.
+        $subject = (string) ($data->subject ?? '');
+        $fullmessage = (string) ($data->fullmessage ?? '');
+        $fullmessagehtml = (string) ($data->fullmessagehtml ?? '');
 
         // Send to each verified secondary address.
         foreach ($addresses as $address) {

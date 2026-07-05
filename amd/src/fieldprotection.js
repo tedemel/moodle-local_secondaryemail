@@ -23,6 +23,8 @@ export const init = (params) => {
 
     const disableLink = (link, msg) => {
         link.removeAttribute('href');
+        // Detach the core delegate that opens the edit modal.
+        link.removeAttribute('data-action');
         link.setAttribute('data-locked', 'true');
         link.classList.add('secondaryemail-locked-link');
         link.title = msg;
@@ -109,10 +111,15 @@ export const init = (params) => {
         if (link.getAttribute('data-locked')) {
             return;
         }
+        // Modern pages use href="#" with data-action/data-id, older ones encode both in the URL.
         const href = link.getAttribute('href') || '';
-        const isFieldLink = hrefHasId(href, fieldId);
+        const dataAction = link.getAttribute('data-action') || '';
+        const dataId = parseInt(link.getAttribute('data-id') || '0', 10);
+        const isFieldLink = hrefHasId(href, fieldId) || dataId === fieldId;
+        const isCategoryTarget = hrefHasId(href, categoryId) || dataId === categoryId;
 
-        if (href.indexOf('action=editfield') !== -1 && isFieldLink) {
+        const isEditField = href.indexOf('action=editfield') !== -1 || dataAction === 'editfield';
+        if (isEditField && isFieldLink) {
             disableLink(link, fieldLockedMsg);
             addLockedBadge(link);
         }
@@ -121,16 +128,17 @@ export const init = (params) => {
             hideLink(link);
         }
 
-        const isCategoryAction = href.indexOf('action=editcategory') !== -1 ||
+        const isCategoryAction = dataAction === 'editcategory' ||
+            href.indexOf('action=editcategory') !== -1 ||
             href.indexOf('action=deletecategory') !== -1 ||
             href.indexOf('action=movecategory') !== -1;
-        if (isCategoryAction && hrefHasId(href, categoryId)) {
+        if (isCategoryAction && isCategoryTarget) {
             hideLink(link);
         }
     };
 
     const lockField = () => {
-        document.querySelectorAll('a[href]').forEach(processLink);
+        document.querySelectorAll('a').forEach(processLink);
 
         document.querySelectorAll('[data-inplaceeditable]').forEach((editableEl) => {
             const text = editableEl.textContent || '';
