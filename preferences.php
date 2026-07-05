@@ -27,7 +27,11 @@ require_once($CFG->libdir . '/adminlib.php');
 
 require_login();
 
-$userid = optional_param('userid', $USER->id, PARAM_INT);
+// The optional_param() default is returned uncleaned, so normalise to int explicitly.
+$userid = optional_param('userid', 0, PARAM_INT);
+if (!$userid) {
+    $userid = (int) $USER->id;
+}
 
 // Check if user customization is enabled.
 if (!get_config('local_secondaryemail', 'allowuserexclusions')) {

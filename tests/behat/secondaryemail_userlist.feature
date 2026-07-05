@@ -62,7 +62,8 @@ Feature: Secondary email management report
   Scenario: Filter report by verification status
     When I navigate to "Users > Accounts > Users with secondary email" in site administration
     And I click on "Filters" "button"
-    And I set the field "Secondary email status" to "Verified"
+    And I set the field "Secondary email status operator" to "Is equal to"
+    And I set the field "Secondary email status value" to "Verified"
     And I click on "Apply" "button" in the "[data-region='report-filters']" "css_element"
     Then I should see "User One"
     And I should not see "User Two"

@@ -9,4 +9,4 @@ Feature: Secondary email field protection
 
   Scenario: Locked badge appears for secondary email field
     When I visit "/user/profile/index.php"
-    Then I should see "Locked"
+    Then ".secondaryemail-locked-badge" "css_element" should exist
